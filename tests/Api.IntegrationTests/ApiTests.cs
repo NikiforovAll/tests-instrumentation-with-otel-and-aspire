@@ -1,21 +1,24 @@
 namespace IntegrationTests;
 
+using System.Net;
+using IntegrationTests.Monitoring;
+
+[TracePerTest]
 public class ApiTests(WebAppFixture fixture) : WebAppContext(fixture)
 {
     [Fact]
-    public void Get_DefaultHealthCheck_Ok() =>
-        this.Host.Scenario(_ =>
+    public async Task Get_HealthCheck_Ok() =>
+        await this.Host.Scenario(_ =>
         {
-            _.Get.Url("/");
+            _.Get.Url("/health");
             _.StatusCodeShouldBeOk();
         });
 
     [Fact]
-    public async Task Get_WeatherForecast_Ok()
-    {
-        var result = await this.Host.GetAsJson<OtelOptions>("/otel");
-
-        result.Should().NotBeNull();
-        result!.ExporterEndpoint.Should().Be(this.OtelExporterEndpoint);
-    }
+    public async Task Get_SwaggerInNonDevelopmentEnvironment_NotFound() =>
+        await this.Host.Scenario(_ =>
+        {
+            _.Get.Url("/swagger");
+            _.StatusCodeShouldBe(HttpStatusCode.NotFound);
+        });
 }

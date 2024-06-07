@@ -8,10 +8,13 @@
 
   <ItemGroup>
     <PackageReference Include="Alba" />
+    <PackageReference Include="AutoFixture.Xunit2" />
     <PackageReference Include="coverlet.collector" />
     <PackageReference Include="FluentAssertions" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="NewId" />
     <PackageReference Include="Testcontainers" />
+    <PackageReference Include="Testcontainers.PostgreSql" />
     <PackageReference Include="xunit" />
     <PackageReference Include="xunit.runner.visualstudio" />
   </ItemGroup>
@@ -20,6 +23,7 @@
     <Using Include="Xunit" />
     <Using Include="Alba" />
     <Using Include="FluentAssertions" />
+    <Using Include="AutoFixture.Xunit2" />
   </ItemGroup>
 
   <ItemGroup>

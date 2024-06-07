@@ -1,5 +1,6 @@
 namespace Microsoft.Extensions.Hosting;
 
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,6 +29,8 @@ public static class Extensions
         this IHostApplicationBuilder builder
     )
     {
+        ArgumentNullException.ThrowIfNull(builder);
+
         builder.Logging.AddOpenTelemetry(logging =>
         {
             logging.IncludeFormattedMessage = true;
@@ -51,7 +54,9 @@ public static class Extensions
                     tracing.SetSampler(new AlwaysOnSampler());
                 }
 
-                tracing.AddAspNetCoreInstrumentation().AddHttpClientInstrumentation();
+                tracing
+                    .AddAspNetCoreInstrumentation()
+                    .AddHttpClientInstrumentation();
             });
 
         builder.AddOpenTelemetryExporters();

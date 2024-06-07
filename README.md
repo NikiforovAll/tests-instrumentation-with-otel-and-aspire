@@ -2,6 +2,12 @@
 
 Integration Tests + Alba + Aspire Dashboard + Testcontainers + Otel
 
+## Test
+
+```bash
+dotnet test
+```
+
 ## Reference
 
 - <https://github.com/martinjt/unittest-with-otel/tree/main>

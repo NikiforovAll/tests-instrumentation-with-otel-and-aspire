@@ -1,6 +1,15 @@
+using DatabaseMigrations.MigrationService;
+using TodoApi;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
+builder.Services.AddHostedService<DbInitializer>();
+builder
+    .Services.AddOpenTelemetry()
+    .WithTracing(tracing => tracing.AddSource(DbInitializer.ActivitySourceName));
+
+builder.AddNpgsqlDbContext<TodoDbContext>("db");
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -12,19 +21,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.MapGet(
-        "/otel",
-        (IConfiguration configuration) =>
-            new OtelOptions(
-                configuration["OTEL_EXPORTER_OTLP_ENDPOINT"],
-                configuration["OTEL_EXPORTER_OTLP_PROTOCOL"]
-            )
-    )
-    .WithName("OtelLoggerOptions")
-    .WithOpenApi();
-
 app.MapDefaultEndpoints();
 
-await app.RunAsync();
+app.MapTodos();
 
-public sealed record OtelOptions(string? ExporterEndpoint, string? Protocol);
+await app.RunAsync();

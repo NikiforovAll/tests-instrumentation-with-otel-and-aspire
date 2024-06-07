@@ -464,3 +464,6 @@ dotnet_naming_rule.parameters_rule.severity             = warning
 
 # CA1711: Identifiers should not have incorrect suffix
 dotnet_diagnostic.CA1711.severity = suggestion
+
+# CA1062: Validate arguments of public methods
+dotnet_diagnostic.CA1062.severity = suggestion
