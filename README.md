@@ -2,6 +2,8 @@
 
 Integration Tests + Alba + Aspire Dashboard + Testcontainers + Otel
 
+![blog-cover](./assets/blog-cover.png)
+
 This repository demonstrates how to instrument integration tests via OpenTelemetry and see the results from Aspire Dashboard.
 
 Integration tests dependencies (PostgresSQL Database, AspireDashboard) are automatically managed as Testcontainers.
