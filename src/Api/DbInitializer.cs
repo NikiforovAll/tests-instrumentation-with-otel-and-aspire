@@ -7,12 +7,13 @@ using Microsoft.EntityFrameworkCore.Storage;
 using OpenTelemetry.Trace;
 using TodoApi;
 
-public class DbInitializer(
-    IServiceProvider serviceProvider
-) : BackgroundService
+public class DbInitializer(IServiceProvider serviceProvider) : BackgroundService
 {
     public const string ActivitySourceName = "Migrations";
     private static readonly ActivitySource ActivitySource = new(ActivitySourceName);
+
+    public Task StartupTask => this.startupTaskCompletion.Task;
+    private readonly TaskCompletionSource<bool> startupTaskCompletion = new();
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
@@ -28,10 +29,12 @@ public class DbInitializer(
 
             await EnsureDatabaseAsync(dbContext, stoppingToken);
             await RunMigrationAsync(dbContext, stoppingToken);
+            this.startupTaskCompletion.SetResult(true);
         }
         catch (Exception ex)
         {
             activity?.RecordException(ex);
+            this.startupTaskCompletion.SetResult(false);
             throw;
         }
     }

@@ -20,7 +20,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
 app.MapDefaultEndpoints();
 
 app.MapTodos();

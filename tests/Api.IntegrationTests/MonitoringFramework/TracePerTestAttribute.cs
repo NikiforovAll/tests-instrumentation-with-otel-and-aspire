@@ -32,6 +32,7 @@ public sealed class TracePerTestAttribute : BaseTraceTestAttribute
     public override void After(MethodInfo methodUnderTest)
     {
         this.activityForThisTest?.Stop();
+
         base.After(methodUnderTest);
     }
 }

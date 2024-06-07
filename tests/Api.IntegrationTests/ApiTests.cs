@@ -4,7 +4,7 @@ using System.Net;
 using IntegrationTests.Monitoring;
 
 [TracePerTest]
-public class ApiTests(WebAppFixture fixture) : WebAppContext(fixture)
+public class ApiTests(WebAppFixture fixture) : WebAppParallelContext(fixture)
 {
     [Fact]
     public async Task Get_HealthCheck_Ok() =>

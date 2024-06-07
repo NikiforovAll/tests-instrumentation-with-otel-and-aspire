@@ -25,7 +25,7 @@ public class TodosTests(WebAppFixture fixture) : WebAppContext(fixture)
     }
 
     [Fact]
-    public async Task PostTodos_ValidTodoIsCreatedInNotCompletedState_Ok()
+    public async Task PostTodos_ValidTodo_Ok()
     {
         var item = new TodoItem { Title = "I want to do this thing tomorrow" };
 

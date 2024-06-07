@@ -11,6 +11,7 @@
     <PackageReference Include="AutoFixture.Xunit2" />
     <PackageReference Include="coverlet.collector" />
     <PackageReference Include="FluentAssertions" />
+    <PackageReference Include="Meziantou.Xunit.ParallelTestFramework" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="NewId" />
     <PackageReference Include="Testcontainers" />
@@ -31,9 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="appsettings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <Content Include="xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>

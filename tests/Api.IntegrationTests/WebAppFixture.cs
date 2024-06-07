@@ -2,6 +2,7 @@ namespace IntegrationTests;
 
 using System.Diagnostics;
 using System.Text.Json;
+using DatabaseMigrations.MigrationService;
 using DotNet.Testcontainers.Builders;
 using DotNet.Testcontainers.Containers;
 using IntegrationTests.Monitoring;
@@ -9,6 +10,7 @@ using MassTransit;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using OpenTelemetry;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
@@ -109,6 +111,13 @@ public class WebAppFixture : IAsyncLifetime
 
         await this.AlbaHost.StartAsync();
         activityForWarmup?.AddEvent(new ActivityEvent("Host Started."));
+
+        // wait for migration
+        await this
+            .AlbaHost.Services.GetServices<IHostedService>()
+            .FirstOrDefault(h => h.GetType() == typeof(DbInitializer))
+            .As<DbInitializer>()
+            .StartupTask;
     }
 
     public async Task DisposeAsync()
@@ -125,6 +134,11 @@ public sealed class WebAppCollection : ICollectionFixture<WebAppFixture>;
 
 [Collection(nameof(WebAppCollection))]
 public abstract class WebAppContext(WebAppFixture fixture)
+{
+    public IAlbaHost Host { get; } = fixture.AlbaHost;
+}
+
+public abstract class WebAppParallelContext(WebAppFixture fixture) : IClassFixture<WebAppFixture>
 {
     public IAlbaHost Host { get; } = fixture.AlbaHost;
 }
