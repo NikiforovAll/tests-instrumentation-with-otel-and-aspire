@@ -2,6 +2,8 @@
 
 Integration Tests + Alba + Aspire Dashboard + Testcontainers + Otel
 
+See also: <https://github.com/NikiforovAll/xunit-instrumentation-otel-template> - for Getting Started.
+
 ![blog-cover](./assets/blog-cover.png)
 
 This repository demonstrates how to instrument integration tests via OpenTelemetry and see the results from Aspire Dashboard.
